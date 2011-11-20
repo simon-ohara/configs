@@ -116,14 +116,13 @@ function colours {
 }
 
 function parse_git_dirty {
-  [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit (working directory clean)" ]] && echo " ☠ "
+  [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit (working directory clean)" ]] && echo "*"
+  #" ☠ "
 }
 
 function parse_git_branch {
   git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(parse_git_dirty)/"
 }
-# export PS1='\u@\h \W$(__git_ps1 "|")$(parse_git_branch)$ '
-#export PS1='\u@\h \[\033[1;33m\]\w\[\033[0m\]$(parse_git_branch)$ '
 
 current_repo=none
 
@@ -151,12 +150,9 @@ function prompt_command {
       ;;
     none)
       PS1="$PS1_TIME \$(date +%H:%M) $NO_COLOUR \w$YELLOW\$$NO_COLOUR "
-      #\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\u@\h:\w\$
       ;;
   esac
 }
-
-OPS1=$PS1
 
 PROMPT_COMMAND=prompt_command
 
