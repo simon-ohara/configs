@@ -9,12 +9,14 @@ Configuration instructions: http://help.github.com/linux-set-up-git/
 
 ## Install ruby-build
 Full instructions: https://github.com/sstephenson/ruby-build
+
 	$ git clone git://github.com/sstephenson/ruby-build.git
 	$ cd ruby-build
 	$ sudo ./install.sh
 
 ## Install rbenv
 Full instructions: https://github.com/sstephenson/rbenv
+
 	$ cd
 	$ git clone git://github.com/sstephenson/rbenv.git .rbenv
 	$ echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
