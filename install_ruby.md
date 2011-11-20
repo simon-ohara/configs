@@ -5,8 +5,8 @@
 
 ## Install GIT
 	$ sudo apt-get install git git-core
-[ruby-build](https://github.com/sstephenson/ruby-build)
 [Setup SSH keys](http://help.github.com/linux-set-up-git/#_set_up_ssh_keys)
+
 [Setup your info](http://help.github.com/linux-set-up-git/#_set_up_your_info)
 
 ## Install ruby-build
