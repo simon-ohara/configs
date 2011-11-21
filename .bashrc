@@ -49,6 +49,7 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
+# Default prompt
 if [ "$color_prompt" = yes ]; then
     PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 else
@@ -64,27 +65,6 @@ xterm*|rxvt*)
 *)
     ;;
 esac
-
-# enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
-
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
-fi
-
-# some more ls aliases
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
-
-# Add an "alert" alias for long running commands.  Use like so:
-#   sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -102,59 +82,6 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
-# Custom colours
-PS1_TIME="\[\033[48;5;17m\033[38;5;69m\]"
-GIT_LABEL="\[\033[48;5;30m\033[38;5;17m\]"
-GIT_BRANCH="\[\033[48;5;142m\033[38;5;17m\]"
-GIT_PATH="\[\033[0m\033[38;5;44m\]"
-RED="\[\033[0;31m\]"
-YELLOW="\[\033[0;33m\]"
-NO_COLOUR="\[\033[0m\]"
-
-function colours {
-  for i in {0..255}; do echo -e "\e[38;05;${i}m${i}"; done | column -c 80 -s '  '; echo -e "\e[m"
-}
-
-function parse_git_dirty {
-  [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit (working directory clean)" ]] && echo "*"
-  #" ☠ "
-}
-
-function parse_git_branch {
-  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(parse_git_dirty)/"
-}
-
-current_repo=none
-
-function determine_repo {
-  d=`pwd`
-  while [ "$d" != "" ]; do
-    [ -d "$d"/.$1 ] && current_repo=$1
-    d=${d%/*}
-  done
-}
-
-function prompt_command {
-  current_repo=none
-  repos=( git svn )
-  for r in "${repos[@]}"; do 
-    determine_repo $r
-  done
-
-  case $current_repo in
-    svn)
-      PS1="$PS1_TIME \$(date +%H:%M) $NO_COLOUR ${current_repo^^} \w$YELLOW\$$NO_COLOUR "
-      ;; 
-    git)
-      PS1="$PS1_TIME \$(date +%H:%M) $NO_COLOUR$GIT_LABEL ${current_repo^^} $GIT_BRANCH $(parse_git_branch) $GIT_PATH\w$YELLOW\$$NO_COLOUR "
-      ;;
-    none)
-      PS1="$PS1_TIME \$(date +%H:%M) $NO_COLOUR \w$YELLOW\$$NO_COLOUR "
-      ;;
-  esac
-}
-
-PROMPT_COMMAND=prompt_command
-
+# RBENV settings
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
