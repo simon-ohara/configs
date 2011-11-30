@@ -1,7 +1,7 @@
 # Installing Ruby Guidelines
 
 ## Get required system packages for Ruby
-	$ sudo apt-get install build-essential libssl-dev libreadline5 libreadline5-dev zlib1g zlib1g-dev
+	$ sudo apt-get install build-essential libssl-dev libreadline-gplv2-dev zlib1g zlib1g-dev curl
 
 ## Install GIT
 	$ sudo apt-get install git git-core
