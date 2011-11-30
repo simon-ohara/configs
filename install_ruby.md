@@ -27,8 +27,8 @@ Restart terminal
 
 ## Install ruby
 	$ rbenv install 1.9.2-p290
-	$ touch ~/.gemrc
-	$ echo 'gem: --no-ri --no-rdoc' >> ~/.gemrc
+	$ rbenv global 1.9.2-p290
+	$ touch ~/.gemrc; echo 'gem: --no-ri --no-rdoc' >> ~/.gemrc
 
 ## Install bundler
 	$ gem install bundler
