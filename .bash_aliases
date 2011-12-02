@@ -22,12 +22,14 @@ alias l='ls -CF'
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 # system tasks
+alias new-launcher='gnome-desktop-item-edit ~/Desktop/ --create-new'
 
 # project traversal
-alias home='cd $HOME'
-alias ireland='cd $HOME/Projects/SageOne/ireland'
-alias trunk='cd $HOME/Projects/SageOne/trunk'
-alias bugfix='cd $HOME/Projects/SageOne/bug-fix'
+alias home='cd /home/simon-ohara'
+alias ireland='home; cd Projects/SageOne/ireland'
+alias billing='home; cd Projects/SageOne/billing'
+alias trunk='home; cd Projects/SageOne/trunk'
+alias bugfix='home; cd Projects/SageOne/bug-fix'
 
 # project tasks
 alias sageone-update='bash ~/Projects/Bash/SageOneUpdate.sh'
@@ -43,10 +45,33 @@ alias findfile='find . -iname'
 alias inspect='du -csh'
 
 # applications
-alias slime-me='slime `pwd`/ & disown'
+
 
 # package management
 alias apt-update-with-keys='sudo apt-get update 2> /tmp/keymissing; for key in $(grep "NO_PUBKEY" /tmp/keymissing |sed "s/.*NO_PUBKEY //"); do echo -e "\nProcessing key: $key"; sudo gpg --keyserver subkeys.pgp.net --recv $key && sudo gpg --export --armor $key | sudo apt-key add -; done'
+
+# Sublime Text 2 Open Helper
+#alias slime-me='slime `pwd`/ & disown'
+#alias s=open_sublime
+
+function open_sublime {
+  # Look for project for the current dir (recurse through parent dirs looking for .slime folder)
+  project_path=""
+  s=`pwd`
+  while [ "$s" != "" ]; do
+    [ -d "$s"/.slime ] && project_path="$s"/.slime/
+    s=${s%/*}
+  done
+
+  if [ -n "$project_path" ]; then
+    #TODO: Show the project name
+    echo "Opening Project"
+    slime --project $(find $project_path -regex ".*\.\(sublime-project\)") $1 & disown
+  else
+    echo "Opening file $1"
+    slime $1 & disown
+  fi
+}
 
 #------------------------------------------------------
 # CUSTOM COMMAND PROMPT
@@ -65,12 +90,26 @@ NO_COLOUR="\[\033[0m\]"
 
 PS1_TIME="\[\033[48;5;17m\033[38;5;12m\]"
 PS1_PATH="\[\033[0;38;5;12m\]"
+PS1_MARKER="$FG_YELLOW\$$NO_COLOUR "
 GIT_LABEL="\[\033[48;5;30m\033[38;5;17m\]"
 GIT_BRANCH="\[\033[48;5;179m\033[38;5;17m\]"
 GIT_PATH=$FG_TEAL
 SVN_LABEL="\[\033[48;5;97m\033[38;5;17m\]"
 SVN_PATH="\[\033[0;38;5;183m\]"
 SVN_SPACER="\[\033[48;5;250m\]"
+
+
+function check_user {
+  if [[ $EUID -ne 0 ]]; then
+    PS1_TIME="\[\033[48;5;17m\033[38;5;12m\] \$(date +%H:%M) "
+    PS1_PATH="\[\033[0;38;5;12m\]"
+    PS1_MARKER="$FG_YELLOW\$$NO_COLOUR "
+  else
+    PS1_TIME="\[\033[48;5;52m\033[38;5;161m\] \$(date +%H:%M) \[\033[48;5;88m\033[38;5;17m\] \$(id -nu) "
+    PS1_PATH="\[\033[0;38;5;124m\]"
+    PS1_MARKER="$FG_YELLOW#$NO_COLOUR "
+  fi
+}
 
 # Output all available colour codes 
 # Used to create new colour variables
@@ -112,20 +151,21 @@ function set_prompt {
   which_repo
   case $current_repo in
     svn)
-      PS1="$PS1_TIME \$(date +%H:%M) $SVN_LABEL ${current_repo^^} $SVN_PATH\w$FG_YELLOW\$$NO_COLOUR "
+      PS1="$PS1_TIME$SVN_LABEL ${current_repo^^} $SVN_PATH\w$PS1_MARKER"
       ;; 
     git)
-      PS1="$PS1_TIME \$(date +%H:%M) $GIT_LABEL ${current_repo^^} $GIT_BRANCH \$(parse_git_branch) $GIT_PATH\w$FG_YELLOW\$$NO_COLOUR "
+      PS1="$PS1_TIME$GIT_LABEL ${current_repo^^} $GIT_BRANCH \$(parse_git_branch) $GIT_PATH\w$PS1_MARKER"
       ;;
     none)
-      PS1="$PS1_TIME \$(date +%H:%M) $PS1_PATH\w$FG_YELLOW\$$NO_COLOUR "
+      PS1="$PS1_TIME$PS1_PATH\w$PS1_MARKER"
       ;;
   esac
 }
 
 # Chief function to call all / any custom functions
 function prompt_command {
-	set_prompt
+	check_user
+  set_prompt
 }
 
 PROMPT_COMMAND=prompt_command
