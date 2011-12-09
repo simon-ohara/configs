@@ -1,7 +1,7 @@
 # Installing Ruby Guidelines
 
 ## Get required system packages for Ruby
-	$ sudo apt-get install build-essential libssl-dev libreadline5 libreadline5-dev zlib1g zlib1g-dev
+	$ sudo apt-get install build-essential libssl-dev libreadline-gplv2-dev zlib1g zlib1g-dev curl
 
 ## Install GIT
 	$ sudo apt-get install git git-core
@@ -27,8 +27,8 @@ Restart terminal
 
 ## Install ruby
 	$ rbenv install 1.9.2-p290
-	$ touch ~/.gemrc
-	$ echo 'gem: --no-ri --no-rdoc' >> ~/.gemrc
+	$ rbenv global 1.9.2-p290
+	$ touch ~/.gemrc; echo 'gem: --no-ri --no-rdoc' >> ~/.gemrc
 
 ## Install bundler
 	$ gem install bundler
