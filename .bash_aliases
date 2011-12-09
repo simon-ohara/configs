@@ -100,6 +100,7 @@ SVN_SPACER="\[\033[48;5;250m\]"
 
 
 function check_user {
+  # if user is not root
   if [[ $EUID -ne 0 ]]; then
     PS1_TIME="\[\033[48;5;17m\033[38;5;12m\] \$(date +%H:%M) "
     PS1_PATH="\[\033[0;38;5;12m\]"
