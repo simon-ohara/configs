@@ -1,5 +1,3 @@
-alias ea='slime ~/.bash_aliases & disown'
-
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
@@ -22,21 +20,15 @@ alias l='ls -CF'
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 # system tasks
+alias ea='slime ~/.bash_aliases &'
+alias reset='source ~/.bashrc; reset'
 alias new-launcher='gnome-desktop-item-edit ~/Desktop/ --create-new'
 
-# project traversal
-alias home='cd /home/simon-ohara'
-alias ireland='home; cd Projects/SageOne/ireland'
-alias billing='home; cd Projects/SageOne/billing'
-alias trunk='home; cd Projects/SageOne/trunk'
-alias bugfix='home; cd Projects/SageOne/bug-fix'
-
-# project tasks
-alias sageone-update='bash ~/Projects/Bash/SageOneUpdate.sh'
-
-# rspecs
-alias Rspec='bundle exec rspec'
-alias payrollViewSpecs='ireland; Rspec spec/views/payroll*'
+# development tasks
+alias g="git"
+alias b='bundle'
+alias bx='b exec'
+alias rs='bx rspec'
 
 # search functions
 alias findme='grep -nir --exclude=\*.svn\* --exclude=\*.swp'
@@ -45,33 +37,11 @@ alias findfile='find . -iname'
 alias inspect='du -csh'
 
 # applications
-
+alias slime='slime &'
 
 # package management
 alias apt-update-with-keys='sudo apt-get update 2> /tmp/keymissing; for key in $(grep "NO_PUBKEY" /tmp/keymissing |sed "s/.*NO_PUBKEY //"); do echo -e "\nProcessing key: $key"; sudo gpg --keyserver subkeys.pgp.net --recv $key && sudo gpg --export --armor $key | sudo apt-key add -; done'
 
-# Sublime Text 2 Open Helper
-#alias slime-me='slime `pwd`/ & disown'
-#alias s=open_sublime
-
-function open_sublime {
-  # Look for project for the current dir (recurse through parent dirs looking for .slime folder)
-  project_path=""
-  s=`pwd`
-  while [ "$s" != "" ]; do
-    [ -d "$s"/.slime ] && project_path="$s"/.slime/
-    s=${s%/*}
-  done
-
-  if [ -n "$project_path" ]; then
-    #TODO: Show the project name
-    echo "Opening Project"
-    slime --project $(find $project_path -regex ".*\.\(sublime-project\)") $1 & disown
-  else
-    echo "Opening file $1"
-    slime $1 & disown
-  fi
-}
 
 #------------------------------------------------------
 # CUSTOM COMMAND PROMPT
