@@ -4,7 +4,9 @@ Steps needed to get a rails app up and running.
 
 h2. Create rails scaffold
 
-bc. $ rails new < app_name >
+bc. $ cd into/projects/folder
+$ rails new < app_name >
+$ cd < app_name >
 $ git init
 
 h2. Configure Gemfile
@@ -51,4 +53,19 @@ gem 'jquery-rails'
 # Use evergreen js test suite
 gem 'evergreen', :require => 'evergreen/rails'
 
-h2. Next
+h2. Configure Evergreen
+
+Create config/evergreen.rb and add the following code:
+
+bc. Evergreen.configure do |config|
+  config.spec_dir = 'test/javascripts'
+end
+
+p. Create new folder test/javascripts. This is where all jasmine spec tests will be placed. It is possible to have subfolders within this directory.
+
+h2. Initial commit
+
+bc. $ git add .
+$ git commit -a -m "Initial commit"
+
+Push to github...
