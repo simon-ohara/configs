@@ -37,7 +37,7 @@ alias findfile='find . -iname'
 alias inspect='du -csh'
 
 # applications
-alias slime='slime &'
+alias chrome='google-chrome'
 
 # package management
 alias apt-update-with-keys='sudo apt-get update 2> /tmp/keymissing; for key in $(grep "NO_PUBKEY" /tmp/keymissing |sed "s/.*NO_PUBKEY //"); do echo -e "\nProcessing key: $key"; sudo gpg --keyserver subkeys.pgp.net --recv $key && sudo gpg --export --armor $key | sudo apt-key add -; done'
@@ -133,10 +133,15 @@ function set_prompt {
   esac
 }
 
+# Set the title of gnome terminal
+function title {
+  echo -ne "\033]0;$*\007"
+}
+
 # Chief function to call all / any custom functions
 function prompt_command {
 	check_user
   set_prompt
 }
-
+title "Alrighty then..."
 PROMPT_COMMAND=prompt_command
