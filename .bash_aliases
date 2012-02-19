@@ -143,9 +143,10 @@ function title {
 # requires wmctrl cli window manager
 function edit_mode {
   file=$*
-  gnome-terminal --title "Slime Console"; sleep 0.3; wmctrl -r Slime -b add,maximized_horz; wmctrl -r Slime -e 0,0,874,-1,150; slime $file & disown; sleep 0.8; wmctrl -r Sublime -b remove,maximized_vert; wmctrl -r Sublime -b add,maximized_horz; wmctrl -r Sublime -e 0,0,0,-1,824; exit
+  title "Initialising Edit Mode"; echo "Please wait while edit mode initialises..."; wmctrl -r :ACTIVE: -b add,maximized_horz; wmctrl -r :ACTIVE: -e 0,0,874,-1,150; title "Slime Console"; slime $file & disown; sleep 0.8; wmctrl -r Sublime -b remove,maximized_vert; wmctrl -r Sublime -b add,maximized_horz; wmctrl -r Sublime -e 0,0,0,-1,824
 }
 alias em='edit_mode'
+alias floatme='wmctrl -r :ACTIVE: -b remove,maximized_horz;wmctrl -r :ACTIVE: -b remove,maximized_vert; wmctrl -r :ACTIVE: -e 0,150,150,600,400'
 
 # Chief function to call all / any custom functions
 function prompt_command {
