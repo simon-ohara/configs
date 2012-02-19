@@ -38,6 +38,7 @@ alias inspect='du -csh'
 
 # applications
 alias chrome='google-chrome'
+alias windows='virtualbox --startvm "Win7 64bit CS5" --fullscreen &'
 
 # package management
 alias apt-update-with-keys='sudo apt-get update 2> /tmp/keymissing; for key in $(grep "NO_PUBKEY" /tmp/keymissing |sed "s/.*NO_PUBKEY //"); do echo -e "\nProcessing key: $key"; sudo gpg --keyserver subkeys.pgp.net --recv $key && sudo gpg --export --armor $key | sudo apt-key add -; done'
@@ -138,10 +139,15 @@ function title {
   echo -ne "\033]0;$*\007"
 }
 
+# Custom window dims & pos for Sublime and Console duo
+# requires wmctrl cli window manager
+function em {
+  slime & disown; gnome-terminal --title "AutoConsolas"; sleep 0.3; wmctrl -r "AutoConsolas" -b add,maximized_horz; wmctrl -r "AutoConsolas" -e 0,0,874,-1,150; sleep 0.3; wmctrl -r Sublime -b remove,maximized_vert; wmctrl -r Sublime -b add,maximized_horz; wmctrl -r Sublime -e 0,0,0,-1,824; exit
+}
+
 # Chief function to call all / any custom functions
 function prompt_command {
 	check_user
   set_prompt
 }
-title "Alrighty then..."
 PROMPT_COMMAND=prompt_command
