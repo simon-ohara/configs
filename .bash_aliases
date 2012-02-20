@@ -43,7 +43,6 @@ alias windows='virtualbox --startvm "Win7 64bit CS5" --fullscreen &'
 # package management
 alias apt-update-with-keys='sudo apt-get update 2> /tmp/keymissing; for key in $(grep "NO_PUBKEY" /tmp/keymissing |sed "s/.*NO_PUBKEY //"); do echo -e "\nProcessing key: $key"; sudo gpg --keyserver subkeys.pgp.net --recv $key && sudo gpg --export --armor $key | sudo apt-key add -; done'
 
-
 #------------------------------------------------------
 # CUSTOM COMMAND PROMPT
 #------------------------------------------------------
@@ -148,9 +147,31 @@ function edit_mode {
 alias em='edit_mode'
 alias floatme='wmctrl -r :ACTIVE: -b remove,maximized_horz;wmctrl -r :ACTIVE: -b remove,maximized_vert; wmctrl -r :ACTIVE: -e 0,150,150,600,400'
 
+# Output chmod reference diagram and usage
+function chmod_ref {
+  echo "
+        OWNER  GROUP   WORLD
+        r w x  r w x   r w x 
+        1 1 1  1 0 1   1 0 1 
+          7      5       5  
+          |______|_______|
+                 |   
+                755
+  "
+  
+  echo "
+ 000  001  010  011  100  101  110  111
+  0    1    2    3    4    5    6    7
+  "
+
+  chmod --help
+}
+
 # Chief function to call all / any custom functions
 function prompt_command {
 	check_user
   set_prompt
 }
+
+# Initialisation commands
 PROMPT_COMMAND=prompt_command
