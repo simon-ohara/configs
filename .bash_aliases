@@ -29,6 +29,7 @@ alias g="git"
 alias b='bundle'
 alias bx='b exec'
 alias rs='bx rspec'
+alias guard='title GUARD ${PWD##*/}; bx guard && wait $!; title Console'
 
 # search functions
 alias findme='grep -nir --exclude=\*.svn\* --exclude=\*.swp'
