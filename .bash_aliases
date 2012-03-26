@@ -63,7 +63,10 @@ PS1_TIME="\[\033[48;5;17m\033[38;5;12m\]"
 PS1_PATH="\[\033[0;38;5;12m\]"
 PS1_MARKER="$FG_YELLOW\$$NO_COLOUR "
 GIT_LABEL="\[\033[48;5;30m\033[38;5;17m\]"
+GIT_JOIN="\[\033[48;5;179m\033[38;5;30m\]"
 GIT_BRANCH="\[\033[48;5;179m\033[38;5;17m\]"
+GIT_CLEAN="\033[48;5;22m"
+GIT_DIRTY="\033[48;5;88m"
 GIT_PATH=$FG_TEAL
 SVN_LABEL="\[\033[48;5;97m\033[38;5;17m\]"
 SVN_PATH="\[\033[0;38;5;183m\]"
@@ -87,6 +90,11 @@ function check_user {
 # Used to create new colour variables
 function colours {
   for i in {0..255}; do echo -e "\e[38;05;${i}m${i}"; done | column -c 80 -s '  '; echo -e "\e[m"
+}
+
+# Set the title of gnome terminal
+function title {
+  echo -ne "\033]0;$*\007"
 }
 
 # Return the name of the root directory for the current repo
@@ -130,6 +138,10 @@ function set_prompt {
     repo_name=$(basename $remote_repo_file) | cut -f1 -d"."
   fi
 
+  # set the title of the terminal to the current repo name
+  term_title=(${repo_name//_/ })
+  echo -ne "\033]0;${term_title[@]^}\007"
+
   # Check if the working branch is clean #253
   #branch_status=$([[ $(git status | tail -n1) != "nothing to commit (working directory clean)" ]] && echo "*")
   branch_status=$(get_branch_status)
@@ -138,12 +150,7 @@ function set_prompt {
   current_branch=$(git branch --no-color | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1/")
 
   # Set prompt with GIT labels
-  PS1="$PS1_TIME$GIT_LABEL \${repo_name} $GIT_BRANCH \${current_branch} \${branch_status} $GIT_PATH\w$PS1_MARKER"
-}
-
-# Set the title of gnome terminal
-function title {
-  echo -ne "\033]0;$*\007"
+  PS1="$PS1_TIME$GIT_LABEL \${repo_name} $GIT_JOIN▶$GIT_BRANCH \${current_branch} \${branch_status} $GIT_PATH\w$PS1_MARKER"
 }
 
 # Custom window dims & pos for Sublime and Console duo
