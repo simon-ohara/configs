@@ -49,28 +49,28 @@ alias apt-update-with-keys='sudo apt-get update 2> /tmp/keymissing; for key in $
 #------------------------------------------------------
 
 # COLOUR VARIABLES ------------------------------------
-FG_BLACK="\[\033[0;30m\]"
-FG_RED="\[\033[0;31m\]"
-FG_GREEN="\[\033[0;32m\]"
-FG_YELLOW="\[\033[0;33m\]"
-FG_BLUE="\[\033[0;34m\]"
-FG_PURPLE="\[\033[0;35m\]"
-FG_TEAL="\[\033[0;36m\]"
-FG_WHITE="\[\033[0;37m\]"
-NO_COLOUR="\[\033[0m\]"
+FG_BLACK='\[\033[0;30m\]'
+FG_RED='\[\033[0;31m\]'
+FG_GREEN='\[\033[0;32m\]'
+FG_YELLOW='\[\033[0;33m\]'
+FG_BLUE='\[\033[0;34m\]'
+FG_PURPLE='\[\033[0;35m\]'
+FG_TEAL='\[\033[0;36m\]'
+FG_WHITE='\[\033[0;37m\]'
+NO_COLOUR='\[\033[0m\]'
 
-PS1_TIME="\[\033[48;5;17m\033[38;5;12m\]"
-PS1_PATH="\[\033[0;38;5;12m\]"
+PS1_TIME='\[\033[48;5;17m\033[38;5;12m\]'
+PS1_PATH='\[\033[0;38;5;12m\]'
 PS1_MARKER="$FG_YELLOW\$$NO_COLOUR "
-GIT_LABEL="\[\033[48;5;30m\033[38;5;17m\]"
-GIT_JOIN="\[\033[48;5;179m\033[38;5;30m\]"
-GIT_BRANCH="\[\033[48;5;179m\033[38;5;17m\]"
-GIT_CLEAN="\033[48;5;22m"
-GIT_DIRTY="\033[48;5;88m"
-GIT_PATH=$FG_TEAL
-SVN_LABEL="\[\033[48;5;97m\033[38;5;17m\]"
-SVN_PATH="\[\033[0;38;5;183m\]"
-SVN_SPACER="\[\033[48;5;250m\]"
+GIT_LABEL='\[\033[48;5;30m\033[38;5;17m\]'
+GIT_JOIN='\[\033[48;5;179m\033[38;5;30m\]'
+GIT_BRANCH='\[\033[48;5;179m\033[38;5;17m\]'
+GIT_CLEAN='\[\033[48;5;22m\]'
+GIT_DIRTY='\[\033[48;5;88m\]'
+GIT_PATH="$FG_TEAL"
+SVN_LABEL='\[\033[48;5;97m\033[38;5;17m\]'
+SVN_PATH='\[\033[0;38;5;183m\]'
+SVN_SPACER='\[\033[48;5;250m\]'
 
 
 function check_user {
@@ -150,7 +150,7 @@ function set_prompt {
   current_branch=$(git branch --no-color | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1/")
 
   # Set prompt with GIT labels
-  PS1="$PS1_TIME$GIT_LABEL \${repo_name} $GIT_JOIN▶$GIT_BRANCH \${current_branch} \${branch_status} $GIT_PATH\w$PS1_MARKER"
+  PS1="$PS1_TIME$GIT_LABEL ${repo_name} $GIT_JOIN▶$GIT_BRANCH ${current_branch} ${branch_status} $GIT_PATH\w$PS1_MARKER"
 }
 
 # Custom window dims & pos for Sublime and Console duo
