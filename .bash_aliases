@@ -150,7 +150,7 @@ function set_prompt {
   current_branch=$(git branch --no-color | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1/")
 
   # Set prompt with GIT labels
-  PS1="$PS1_TIME$GIT_LABEL ${repo_name} $GIT_JOIN▶$GIT_BRANCH ${current_branch} ${branch_status} $GIT_PATH\w$PS1_MARKER"
+  PS1="$PS1_TIME$GIT_LABEL $repo_name $GIT_BRANCH ${current_branch} ${branch_status} $GIT_PATH\w$PS1_MARKER"
 }
 
 # Custom window dims & pos for Sublime and Console duo
