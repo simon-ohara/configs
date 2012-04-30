@@ -23,6 +23,12 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 alias ea='slime ~/.bash_aliases &'
 alias reset='source ~/.bashrc; reset'
 alias new-launcher='gnome-desktop-item-edit ~/Desktop/ --create-new'
+alias design='mount_design_files'
+
+function mount_design_files {
+  [ ! -d /home/simon-ohara/Projects/Design/SageOne ] && sudo mount -t cifs -o username="sageukie\simon.ohara",uid=simon-ohara,gid=simon-ohara //filencl01/online\ applications/Design\ Files/ /home/simon-ohara/Projects/Design;
+  cd /home/simon-ohara/Projects/Design; title Design
+}
 
 # development tasks
 alias g="git"
@@ -39,7 +45,7 @@ alias inspect='du -csh'
 
 # applications
 alias chrome='google-chrome'
-alias windows='virtualbox --startvm "Win7 64bit CS5" --fullscreen &'
+alias windows='virtualbox --startvm "Windows" --fullscreen &'
 
 # package management
 alias apt-update-with-keys='sudo apt-get update 2> /tmp/keymissing; for key in $(grep "NO_PUBKEY" /tmp/keymissing |sed "s/.*NO_PUBKEY //"); do echo -e "\nProcessing key: $key"; sudo gpg --keyserver subkeys.pgp.net --recv $key && sudo gpg --export --armor $key | sudo apt-key add -; done'
@@ -124,6 +130,7 @@ function set_prompt {
   # If git status errors then we are not in a git repo
   # or we do not have git installed so leave prompt as default
   if [[ -z $(git status 2> /dev/null) ]]; then
+    echo -ne "\033]0;Console\007"
     return
   fi
 
@@ -157,21 +164,27 @@ function set_prompt {
 # requires wmctrl cli window manager
 function edit_mode {
   file=$*
-  title "Initialising Edit Mode"; echo "Please wait while edit mode initialises..."; wmctrl -r :ACTIVE: -b add,maximized_horz; wmctrl -r :ACTIVE: -e 0,0,874,-1,150; title "Slime Console"; slime $file & disown; sleep 0.8; wmctrl -r Sublime -b remove,maximized_vert; wmctrl -r Sublime -b add,maximized_horz; wmctrl -r Sublime -e 0,0,0,-1,824
+  title "Initialising Edit Mode"; echo "Please wait while edit mode initialises..."; wmctrl -r :ACTIVE: -b remove,maximized_horz; wmctrl -r :ACTIVE: -b remove,maximized_vert; wmctrl -r :ACTIVE: -e 0,1300,874,-1,150; wmctrl -r :ACTIVE: -b add,maximized_horz; title "Slime Console"; slime $file & disown; sleep 0.8; wmctrl -r Sublime -b remove,maximized_vert; wmctrl -r Sublime -b remove,maximized_horz; wmctrl -r Sublime -e 0,1300,0,-1,824; wmctrl -r Sublime -b add,maximized_horz
 }
 alias em='edit_mode'
 alias floatme='wmctrl -r :ACTIVE: -b remove,maximized_horz;wmctrl -r :ACTIVE: -b remove,maximized_vert; wmctrl -r :ACTIVE: -e 0,150,150,600,400'
 
+# function workspace_dims {
+#   ws_dims=wmctrl -d | grep "*" | cut -f12 -d" " | cut -f1 -d"x"
+#   ws_width=$ws_dims cut -f1 -d"x"
+#   ws_height=$ws_dims cut -f2 -d"x"
+# }
+
 # Output chmod reference diagram and usage
 function chmod_ref {
   echo "
-        OWNER  GROUP   WORLD
-        r w x  r w x   r w x 
-        1 1 1  1 0 1   1 0 1 
-          7      5       5  
-          |______|_______|
-                 |   
-                755
+        OWNER   GROUP   WORLD
+        r w x   r w x   r w x 
+        1 1 1   1 0 1   1 0 1 
+          7       5       5  
+          |_______|_______|
+                  |   
+                 755
   "
   
   echo "

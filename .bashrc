@@ -70,9 +70,13 @@ esac
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
-
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
+fi
+
+# Profile configuration
+if [ -f ~/.bash_profile ]; then
+    . ~/.bash_profile
 fi
 
 # enable programmable completion features (you don't need to enable
@@ -81,7 +85,3 @@ fi
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
-
-# RBENV settings
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
