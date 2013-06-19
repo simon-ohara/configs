@@ -67,7 +67,7 @@ $
 ````
 
 ### Run the installation
-1. Visit http://localhost/~username/wptest
+1. Visit [http://localhost/~username/wptest](http://localhost/~username/wptest)
 * Fill in the form
 * Log in
 
