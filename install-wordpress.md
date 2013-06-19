@@ -39,6 +39,8 @@ define('DB_PASSWORD', 'password321');
 /** MySQL hostname */
 define('DB_HOST', '127.0.0.1');
 ````
+**NB** It is important to have the `DB_HOST` set to `127.0.0.1` as the term `localhost` makes WP fail to connct to database.
+
 
 ### Create the WordPress Database
 Adapted from: http://codex.wordpress.org/Installing_WordPress#Using_the_MySQL_Client
