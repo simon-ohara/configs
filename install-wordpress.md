@@ -40,6 +40,29 @@ define('DB_PASSWORD', 'password321');
 define('DB_HOST', '127.0.0.1');
 ````
 
+### Create the WordPress Database
+Adapted from: http://codex.wordpress.org/Installing_WordPress#Using_the_MySQL_Client
+````bash
+$ mysql -u root -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 5340 to server version: 3.23.54
+ 
+Type 'help;' or '\h' for help. Type '\c' to clear the buffer.
+ 
+mysql> CREATE DATABASE wptest;
+Query OK, 1 row affected (0.00 sec)
+ 
+mysql> GRANT ALL PRIVILEGES ON wptest.* TO "wpuser"@"localhost" IDENTIFIED BY "password321";
+Query OK, 0 rows affected (0.00 sec)
+  
+mysql> FLUSH PRIVILEGES;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> \q
+Bye
+$ 
+````
 
 
 
