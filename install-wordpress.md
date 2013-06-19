@@ -39,7 +39,7 @@ define('DB_PASSWORD', 'password321');
 /** MySQL hostname */
 define('DB_HOST', '127.0.0.1');
 ````
-**NB** It is important to have the `DB_HOST` set to `127.0.0.1` as the term `localhost` makes WP fail to connct to database.
+**NB** It is important to have the `DB_HOST` set to `127.0.0.1` as the term `localhost` makes WP fail to connect to database.
 
 
 ### Create the WordPress Database
@@ -66,7 +66,14 @@ Bye
 $ 
 ````
 
+### Run the installation
+1. Visit http://localhost/~username/wptest
+* Fill in the form
+* Log in
 
+
+### Setting up local domain names???
+???
 
 
 
