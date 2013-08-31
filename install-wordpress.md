@@ -9,23 +9,35 @@
 Taken from: https://discussions.apple.com/docs/DOC-3083
 
 ### Download and Configure WordPress
-````bash
+```bash
 cd ~/Sites
 curl http://wordpress.org/latest.tar.gz | tar zx
-````
+```
 
 Rename the wordpress directory
-````bash
+```bash
 mv wordpress/ wptest/
-````
+```
+
+Set permissions for the Apache user.
+
+*Apache user turned out to be _www on Mac OS X 10.8 / Apache 2.2.22.*
+
+This will allow updates of WordPress and installation of themes and plugins (without ftp fallback mechanism presenting)
+```bash
+cd wptest/
+sudo chown -R _www .
+find . -type d -exec chmod 0775 {} \;
+find . -type f -exec chmod 0664 {} \;
+```
 
 Configure
-````bash
+```bash
 mv wptest/wp-config-sample.php wptest/wp-config.php
 vim wptest/wp-config.php
-````
+```
 
-````php
+```php
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
 define('DB_NAME', 'wptest');
@@ -38,13 +50,13 @@ define('DB_PASSWORD', 'password321');
 
 /** MySQL hostname */
 define('DB_HOST', '127.0.0.1');
-````
+```
 **NB** It is important to have the `DB_HOST` set to `127.0.0.1` as the term `localhost` makes WP fail to connect to database.
 
 
 ### Create the WordPress Database
 Adapted from: http://codex.wordpress.org/Installing_WordPress#Using_the_MySQL_Client
-````bash
+```bash
 $ mysql -u root -p
 Enter password:
 Welcome to the MySQL monitor.  Commands end with ; or \g.
@@ -64,7 +76,7 @@ Query OK, 0 rows affected (0.01 sec)
 mysql> \q
 Bye
 $ 
-````
+```
 
 ### Run the installation
 1. Visit [http://localhost/~username/wptest](http://localhost/~username/wptest)
